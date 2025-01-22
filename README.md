@@ -6,6 +6,7 @@ This is a server that receives Connector events and logs them.
 
 ```bash
 pip install "fastapi[standard]"
+pip install jinja2
 ```
 
 ## Run

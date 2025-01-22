@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDC Events List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .event-list {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .event-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .event-type {
+            color: #2c5282;
+            font-weight: bold;
+        }
+        .event-time {
+            color: #718096;
+        }
+        .event-details {
+            margin-left: 15px;
+        }
+        .event-id {
+            color: #718096;
+            font-size: 0.9em;
+        }
+        .event-body {
+            background-color: #f8fafc;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="event-list">
+        <h1>EDC Events</h1>
+        {% for event in events %}
+        <div class="event-card">
+            <div class="event-header">
+                <span class="event-type">{{ event.ce_type.split('.')[-1] }}</span>
+                <span class="event-time">{{ event.ce_time }}</span>
+            </div>
+            <div class="event-details">
+                <div class="event-id">ID: {{ event.ce_id }}</div>
+                <div class="event-body">
+                    {% if 'assetId' in event.body %}
+                        <strong>Asset ID:</strong> {{ event.body.assetId }}
+                    {% endif %}
+                    {% if 'policyDefinitionId' in event.body %}
+                        <strong>Policy Definition ID:</strong> {{ event.body.policyDefinitionId }}
+                    {% endif %}
+                    {% if 'contractDefinitionId' in event.body %}
+                        <strong>Contract Definition ID:</strong> {{ event.body.contractDefinitionId }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

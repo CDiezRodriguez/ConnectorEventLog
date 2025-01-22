@@ -1,8 +1,13 @@
 from typing import Annotated
 
 from fastapi import Request, FastAPI, Header
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+
+templates = Jinja2Templates(directory = 'templates')
 
 logs = []
 
@@ -16,7 +21,7 @@ class event:
         self.body = body
 
 
-@app.get("/event")
+@app.post("/event")
 async def getNewEvent(request: Request, 
                       ce_time: Annotated[str | None, Header()] = None,
                       ce_type: Annotated[str | None, Header()] = None,
@@ -34,5 +39,7 @@ async def getNewEvent(request: Request,
     return "204"
 
 @app.get("/logs")
-async def getLog():
-    return logs
+async def getLog(request: Request):
+    return templates.TemplateResponse(
+    'logs.html',
+    {'request': request, 'events': logs})
